@@ -1,0 +1,178 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+package org.apache.royale.html.beads {
+
+    import org.apache.royale.core.IBead;
+    import org.apache.royale.core.IStrand;
+    import org.apache.royale.events.Event;
+
+	COMPILE::JS {
+		import org.apache.royale.core.WrappedHTMLElement;
+	}
+    import org.apache.royale.events.EventDispatcher;
+    import org.apache.royale.core.IRenderedObject;
+	import org.apache.royale.core.IImage;
+    import org.apache.royale.core.IImageModel;
+  
+  /**
+	 *  the ErrorImage class is a bead that can be used to 
+     *  display an alternate image, in the event that the specified image 
+     *  cannot be loaded.
+     * 
+     *  It will be supported by controls that load the ImageModel bead and that have 
+     *  a specific property defined for their image element: 
+     *  they are included, all those that implement the IImage interface (controls Image) 
+     *  or those that contain an imageElement property (ImageButton controls)
+	 *  
+	 *  @langversion 3.0
+	 *  @playerversion Flash 10.2
+	 *  @playerversion AIR 2.6
+	 *  @productversion Royale 0.9.8
+	 */
+
+    public class ErrorImage implements IBead {
+
+        protected var _strand:IStrand;
+
+        public function ErrorImage() {            
+        }
+
+        private var _src:String;
+		/**
+		 *  The source of the image
+		 */
+        public function get src():String {
+            return _src;
+        }
+
+        public function set src(value:String):void {
+            _src = value;
+        }
+        
+		COMPILE::JS
+        private var _hostElement:Element;
+		protected function get hostElement():Element
+		{
+			return _hostElement;
+		}
+
+        protected function get hostModel():IImageModel
+        {             
+            return _strand.getBeadByType(IImageModel) as IImageModel;
+        }
+
+        /**
+         *  @copy org.apache.royale.core.IBead#strand
+         *
+         *  @langversion 3.0
+         *  @playerversion Flash 10.2
+         *  @playerversion AIR 2.6
+         *  @productversion Royale 0.9.8
+         */
+        public function set strand(value:IStrand):void 
+        {
+            _strand = value;
+
+	        COMPILE::JS {
+                //DELETE:
+                //No deberíamos cargar el bead si el host no implementa la interface IImageModel                
+                //Image Basic - Jewel - MXRoyale:   BeadModel IImageModel. Implementan IImage (imageElement:Element wrapper HTMLImageElement)
+                //ImageButton Basic:                BeadModel IImageModel. No implementa IImage PERO tiene la propiedad PRIVATE _imageElement:HTMLImageElement
+                //      En este caso el ".element" no corresponde a la imagen sino al button
+                //ImageButton Express:              Extiende de ImageButton Basic
+                //ImageButton Jewel:                BeadModel IImageModel. No implementa IImage, no tiene propiedad imageElement, definida, pero de tenerla
+                //      sería imageElement:HTMLInputElement
+
+                if(_strand is IImage)
+                {
+                    _hostElement = (_strand as IImage).imageElement;
+                }
+                else if(_strand is IRenderedObject)
+                {
+                    try 
+                    {
+                        _hostElement = Element((_strand as Object).imageElement) as Element;
+                    }
+                    catch (error:Error) 
+                    {
+                        trace(error);
+                    }
+                }
+                if(_hostElement){
+                    
+                    _hostElement.addEventListener('error', errorHandler);
+
+                    if(_emptyIsError)
+                    {
+                        (_strand as EventDispatcher).addEventListener('srcChanged', srcChangedHandler);
+                        (_strand as EventDispatcher).addEventListener("beadsAdded", beadsAddedHandler);
+
+                    }
+                }   
+            }
+        }
+
+		COMPILE::JS
+        private function beadsAddedHandler(event:Event):void
+        {
+            (_strand as EventDispatcher).removeEventListener("beadsAdded", beadsAddedHandler);
+
+            if(hostModel)
+                hostModel.addEventListener("urlChanged",srcChangedHandler);
+            srcChangedHandler(null);
+        }
+
+        private var _emptyIsError:Boolean = false;
+        public function get emptyIsError():Boolean {
+            return _emptyIsError;
+        }
+        public function set emptyIsError(value:Boolean):void {
+            _emptyIsError = value;
+        }
+
+		COMPILE::JS
+        private function errorHandler(event:Event):void {
+        
+            var imgEle:Object = hostElement as Object;
+            if (imgEle.src != _src)
+            {
+                imgEle.src = _src;
+            }
+        }
+		
+        private function srcChangedHandler(event:Event):void
+        {
+            if(hostModel && !hostModel.url){
+                
+                COMPILE::JS {
+                    // Op1: Actualizando el modelo de nuevo. Esto provoca una doble asignación que debemos controlar.
+                    if(hostModel.hasEventListener("urlChanged")){
+                        hostModel.removeEventListener("urlChanged",srcChangedHandler);
+                        hostModel.url = src;
+                        hostModel.addEventListener("urlChanged",srcChangedHandler);                    
+                    }
+                    // La opción 1, no funciona con el jewel ImageButton si no hay una asignación directa al elemento HTML
+                    (hostElement as Object).src = src;
+                }                    
+            }
+            
+        }
+
+    }
+}

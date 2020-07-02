@@ -104,5 +104,9 @@ package org.apache.royale.html
 
         COMPILE::JS
         private var _imageElement:HTMLImageElement;
+        public function get imageElement():HTMLImageElement
+        {
+            return _imageElement;
+        }
 	}
 }
