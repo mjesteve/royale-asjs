@@ -27,7 +27,7 @@ package org.apache.royale.html.beads {
     import org.apache.royale.core.IImageModel;
   
   /**
-	 *  the ErrorImage class is a bead that can be used to 
+	 *  The ErrorImage class is a bead that can be used to 
      *  display an alternate image, in the event that the specified image 
      *  cannot be loaded.
      * 
@@ -84,9 +84,6 @@ package org.apache.royale.html.beads {
             _strand = value;
 
 	        COMPILE::JS {
-                //DELETE:
-                //No deberíamos cargar el bead si el host no implementa la interface IImageModel                
-                //Image Basic - Jewel - MXRoyale:   BeadModel IImageModel. Implementan IImage (imageElement:Element wrapper HTMLImageElement)
 
                 if(_strand is IImage)
                 {
@@ -136,13 +133,13 @@ package org.apache.royale.html.beads {
             if(hostModel && !hostModel.url){
                 
                 COMPILE::JS {
-                    // Op1: Actualizando el modelo de nuevo. Esto provoca una doble asignación que debemos controlar.
+                    // Op1: Updating the model (It causes a double assignment that we must control)
                     if(hostModel.hasEventListener("urlChanged")){
                         hostModel.removeEventListener("urlChanged",srcChangedHandler);
                         hostModel.url = src;
                         hostModel.addEventListener("urlChanged",srcChangedHandler);                    
                     }
-                    // Op2: asignación directa al elemento HTML
+                    // Op2: Direct assignment to element
                     //(hostElement as Object).src = src;
                 }                    
             }
