@@ -22,11 +22,7 @@ package org.apache.royale.html.beads {
     import org.apache.royale.core.IStrand;
     import org.apache.royale.events.Event;
 
-	COMPILE::JS {
-		import org.apache.royale.core.WrappedHTMLElement;
-	}
     import org.apache.royale.events.EventDispatcher;
-    import org.apache.royale.core.IRenderedObject;
 	import org.apache.royale.core.IImage;
     import org.apache.royale.core.IImageModel;
   
@@ -63,13 +59,13 @@ package org.apache.royale.html.beads {
             _src = value;
         }
         
-		COMPILE::JS
+		COMPILE::JS{
         private var _hostElement:HTMLImageElement;
 		protected function get hostElement():HTMLImageElement
 		{
 			return _hostElement;
 		}
-
+        }
         protected function get hostModel():IImageModel
         {             
             return _strand.getBeadByType(IImageModel) as IImageModel;
@@ -155,3 +151,4 @@ package org.apache.royale.html.beads {
 
     }
 }
+
