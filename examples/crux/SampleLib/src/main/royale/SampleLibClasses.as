@@ -18,6 +18,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 package
 {
+    
     /**
      *  @private
      *  This class is used to link additional classes into jewel.swc
@@ -42,5 +43,6 @@ package
 	    // {
         // import package.ClassName; ClassName;
         // }
+        //import org.apache.royale.examples.config.ServiceConfig; ServiceConfig;
     }
 }
