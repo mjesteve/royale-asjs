@@ -19,14 +19,16 @@
 <crux:BeanProvider
 	xmlns:fx="http://ns.adobe.com/mxml/2009"
 	xmlns:mx="library://ns.apache.org/royale/mx"
-	xmlns:crux="library://ns.apache.org/royale/crux">
+	xmlns:crux="library://ns.apache.org/royale/crux"
+	xmlns:service="crux.service.*"
+	xmlns:controller="crux.controller.*">
 
-	<crux:beans>
-		<fx:Array>
-			<mx:HTTPService id="configuratorService" 
-                      url="project.json" resultFormat="text"/>
-			<mx:HTTPService id="commitsService" resultFormat="text"	/>
-		</fx:Array>
-	</crux:beans>
+	<mx:HTTPService id="configuratorService"
+					url="project.json" resultFormat="text"/>
+	<mx:HTTPService id="commitsService" resultFormat="text"	/>
 
+	<!--<service:ConfigurationDelegate id="configurationDelegate"/>
+	<controller:ConfigurationController id="configurationController" />
+	<service:CommitsDelegate id="commitsDelegate"/>
+	<controller:CommitsController id="commitsController" />-->
 </crux:BeanProvider>

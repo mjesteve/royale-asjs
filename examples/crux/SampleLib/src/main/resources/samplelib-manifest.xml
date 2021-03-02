@@ -22,6 +22,7 @@
 <componentPackage>
 
   <component id="SampleClass" class="org.apache.royale.examples.SampleClass"/>
-  <component id="ServiceConfig" class="org.apache.royale.examples.config.ServiceConfig"/>
+  <component id="ServicesConfig" class="org.apache.royale.examples.config.ServicesConfig"/>
+  <component id="Beans" class="org.apache.royale.examples.config.Beans"/>
 
 </componentPackage>

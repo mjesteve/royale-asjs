@@ -44,12 +44,12 @@
         "include-sources": [
             "src/main/royale"
         ],
-        // "library-path": [
-        //     "${royalelib}/js/libs/MXRoyaleJS.swc"
-        // ],
-        // "js-library-path": [
-        //     "${royalelib}/js/libs/MXRoyaleJS.swc"
-        // ],
+        "library-path": [
+            "${royalelib}/js/libs/MXRoyaleJS.swc"
+        ],
+        "js-library-path": [
+            "${royalelib}/js/libs/MXRoyaleJS.swc"
+        ],
         "source-map": true,
         "output": "bin/SampleLib.swc"
     }
