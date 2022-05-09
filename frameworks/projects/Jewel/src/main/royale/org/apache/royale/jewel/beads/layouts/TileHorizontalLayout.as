@@ -29,6 +29,8 @@ package org.apache.royale.jewel.beads.layouts
 	import org.apache.royale.core.layout.EdgeData;
 	import org.apache.royale.core.layout.ILayoutStyleProperties;
 	import org.apache.royale.events.Event;
+	import org.apache.royale.utils.OSUtils;
+	import org.apache.royale.utils.observeElementSize;
 
 	/**
 	 *  The TileHorizontalLayout class bead sizes and positions the elements it manages into rows and columns.
@@ -60,9 +62,9 @@ package org.apache.royale.jewel.beads.layouts
 
 		/**
 		 *  Add class selectors when the component is addedToParent
-		 *  Otherwise component will not get the class selectors when 
+		 *  Otherwise component will not get the class selectors when
 		 *  perform "removeElement" and then "addElement"
-		 * 
+		 *
  		 *  @langversion 3.0
  		 *  @playerversion Flash 10.2
  		 *  @playerversion AIR 2.6
@@ -74,6 +76,17 @@ package org.apache.royale.jewel.beads.layouts
 
 			hostComponent.replaceClass("tile");
 			hostComponent.dispatchEvent(new Event("layoutNeeded"));
+			//waitForSize = true;
+
+			COMPILE::JS{
+				//OSUtils.getOS() == OSUtils.MAC_OS || OSUtils.getOS() == OSUtils.IOS_OS ??
+    			var isMac:Boolean = OSUtils.getOS() == OSUtils.MAC_OS;
+				if(!isMac)
+					observeElementSize(hostComponent.element, observedChangeSize);
+				else
+					// TODO - To be tested (scroll - mousemove - enter ¿?)
+                	hostComponent.element.addEventListener('scroll', observedChangeSize);
+            }
 		}
 
 		private var _columnCount:int = -1;
@@ -127,7 +140,7 @@ package org.apache.royale.jewel.beads.layouts
 		 *  If the columnAlign property is set to "justifyUsingWidth", the column width grows to the container width to justify the fully-visible columns.
 		 *  The default value is NaN.
 		 *  This property can be used as the source for data binding.
-		 *  
+		 *
 		 *  The width of each column, in pixels. If left unspecified, the
 		 *  columnWidth is determined by dividing the columnCount into the
 		 *  strand's bounding box width.
@@ -170,7 +183,7 @@ package org.apache.royale.jewel.beads.layouts
 		{
 			return _rowCount;
 		}
-		
+
 		private var _rowHeight:Number = Number.NaN;
 		/**
 		 *  The row height, in pixels.
@@ -178,7 +191,7 @@ package org.apache.royale.jewel.beads.layouts
 		 *  If rowAlign is set to "justifyUsingHeight", the actual row height increases to justify the fully-visible rows to the container height.
 		 *  The default value is NaN.
 		 *  This property can be used as the source for data binding.
-		 *  
+		 *
 		 *  The height of each row, in pixels. If left unspecified, the
 		 *  rowHeight is determine by dividing the possible number of rows
 		 *  into the strand's bounding box height.
@@ -267,6 +280,15 @@ package org.apache.royale.jewel.beads.layouts
             }
 		}
 
+		private var _oldScrollWidth:Number;
+		private function observedChangeSize(event:Event):void
+		{
+			COMPILE::JS{
+			    if(_oldScrollWidth != hostComponent.element.scrollWidth)
+				    updateLayout();
+            }
+		}
+
 		private function updateLayout():void
 		{
 			layout();
@@ -274,19 +296,19 @@ package org.apache.royale.jewel.beads.layouts
 
 		/**
 		 *  Get the component layout style and apply to if exists
-		 * 
+		 *
 		 *  @param component the IUIBase component that host this layout
 		 *  @param cssProperty the style property in css set for the component to retrieve
-		 * 
+		 *
 		 *  @see org.apache.royale.core.layout.ILayoutStyleProperties#applyStyleToLayout(component:IUIBase, cssProperty:String):void
-		 * 
+		 *
 		 *  @langversion 3.0
 		 *  @playerversion Flash 10.2
 		 *  @playerversion AIR 2.6
 		 *  @productversion Royale 0.9.8
 		 */
 		// override public function applyStyleToLayout(component:IUIBase, cssProperty:String):void
-		// {	
+		// {
 		// 	var cssValue:* = ValuesManager.valuesImpl.getValue(component, cssProperty);
 		// 	if (cssValue !== undefined)
 		// 	{
@@ -300,10 +322,10 @@ package org.apache.royale.jewel.beads.layouts
 		// 				break;
 		// 			default:
 		// 				break;
-		// 		}	
+		// 		}
 		// 	}
 		// }
-		
+
 		/**
 		 *  Layout children
 		 *
@@ -327,7 +349,7 @@ package org.apache.royale.jewel.beads.layouts
 				var useHeight:Number = _rowHeight;
 				var n:Number = area.numElements;
 				if (n == 0) return false;
-				
+
 				var adjustedWidth:Number = Math.floor(host.width - borderMetrics.left - borderMetrics.right);
 				var adjustedHeight:Number = Math.floor(host.height - borderMetrics.top - borderMetrics.bottom);
 
@@ -382,7 +404,7 @@ package org.apache.royale.jewel.beads.layouts
 			COMPILE::JS
 			{
 				// trace(" **** TILE LAYOUT ****");
-				
+
 				// trace(" - requestedColumnCount", _requestedColumnCount);
 				// trace(" - columnCount", _columnCount);
 				// trace(" - columnWidth", _columnWidth);
@@ -391,7 +413,7 @@ package org.apache.royale.jewel.beads.layouts
 				// trace(" - rowCount", _rowCount);
 				// trace(" - rowHeight", _rowHeight);
 				// trace(" - verticalGap", _verticalGap);
-				
+
 				var i:int;
 				var n:int;
 				var child:UIBase;
@@ -411,7 +433,7 @@ package org.apache.royale.jewel.beads.layouts
 				// trace(" - needWidth", needWidth);
 				var needHeight:Boolean = isNaN(useHeight);
 				// trace(" - needHeight", needHeight);
-				
+
 				var realN:int = n;
 				var widestTile:Number = 0; // hold the widest tile
 				var tallestTile:Number = 0; // hold the widest tile
@@ -424,12 +446,19 @@ package org.apache.royale.jewel.beads.layouts
 				}
 				// trace(" - widestTile", widestTile);
 				// trace(" - tallestTile", tallestTile);
-				
-				
-				// trace("  -- calculate useWidth & useHeight");
+
+				// trace("  -- calculate useWidth & useHeight ------");
 				var borderMetrics:EdgeData = (ValuesManager.valuesImpl as IBorderPaddingMarginValuesImpl).getBorderMetrics(host);
 				var adjustedHostWidth:Number = Math.floor(host.width - borderMetrics.left - borderMetrics.right);
+
+                if (hostComponent.containsClass("scroll")){
+                    //Reserve some room for VScrollbar
+					// trace("OLD scrollWidth - NEW scrollWidth", _oldScrollWidth, hostComponent.element.scrollWidth);
+					_oldScrollWidth = hostComponent.element.scrollWidth;
+                    adjustedHostWidth -= _oldScrollWidth;
+				}
 				// trace(" - adjustedWidth", adjustedHostWidth);
+
 				var adjustedHostHeight:Number = Math.floor(host.height - borderMetrics.top - borderMetrics.bottom);
 				// trace(" - adjustedHeight", adjustedHostHeight);
 
@@ -450,9 +479,9 @@ package org.apache.royale.jewel.beads.layouts
 				// _rowCount = _requestedRowCount != -1 ? _requestedRowCount : Math.floor(adjustedHostHeight / (tallestTile + _verticalGap));
 				_rowCount = Math.ceil(realN / _columnCount);
 				// trace("  -- _rowCount", _rowCount);
-				
+
 				if (needHeight)
-				{	
+				{
 					useHeight = tallestTile;
 					// if (host.isHeightSizedToContent()) useHeight = 30; // default height
 					// else useHeight = Math.floor((adjustedHostHeight + _verticalGap) / numRows);
@@ -462,21 +491,22 @@ package org.apache.royale.jewel.beads.layouts
 					useHeight = _rowHeight;
 				}
 				// trace("  -- useHeight", useHeight);
-				
+
+
 				for (i = 0; i < n; i++)
 				{
 					child = contentView.getElementAt(i) as UIBase;
 
 					if (!child.visible) continue;
-					
+
 					// trace(i, i % _columnCount, i % _rowCount);
-					
+
 					// add horizontalGap
 					if(i % _columnCount != 0)
 						child.positioner.style.marginLeft = _horizontalGap + "px";
 					else
 						child.positioner.style.marginLeft = null;
-					
+
 					// add verticalGap
 					if(i >= _columnCount)
 						child.positioner.style.marginTop = _verticalGap + "px";
@@ -489,13 +519,14 @@ package org.apache.royale.jewel.beads.layouts
 					if(useHeight > 0)
 						child.height = useHeight;// - _verticalGap;
 						// child.height = _requestedColumnCount == -1 ? useHeight : useHeight - _verticalGap;
-					
+
 					// add dummy margin: avoid a tile from the next row stay in the previous row due to flexbox algorithm
 					if(i % _columnCount == _columnCount - 1)
 						child.positioner.style.marginRight = Math.floor(adjustedHostWidth - (1 + child.width + (child.width + _horizontalGap) * (_columnCount - 1))) + "px";
 					else
 						child.positioner.style.marginRight = null;
-					
+
+
 					child.dispatchEvent(new Event('sizeChanged'));
 				}
 				return true;
