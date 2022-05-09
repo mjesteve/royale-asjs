@@ -450,7 +450,6 @@ package org.apache.royale.jewel.beads.layouts
 				// trace("  -- calculate useWidth & useHeight ------");
 				var borderMetrics:EdgeData = (ValuesManager.valuesImpl as IBorderPaddingMarginValuesImpl).getBorderMetrics(host);
 				var adjustedHostWidth:Number = Math.floor(host.width - borderMetrics.left - borderMetrics.right);
-
                 if (hostComponent.containsClass("scroll")){
                     //Reserve some room for VScrollbar
 					// trace("OLD scrollWidth - NEW scrollWidth", _oldScrollWidth, hostComponent.element.scrollWidth);
@@ -458,7 +457,6 @@ package org.apache.royale.jewel.beads.layouts
                     adjustedHostWidth -= _oldScrollWidth;
 				}
 				// trace(" - adjustedWidth", adjustedHostWidth);
-
 				var adjustedHostHeight:Number = Math.floor(host.height - borderMetrics.top - borderMetrics.bottom);
 				// trace(" - adjustedHeight", adjustedHostHeight);
 
