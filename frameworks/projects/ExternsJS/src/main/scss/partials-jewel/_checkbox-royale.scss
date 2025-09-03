@@ -1,0 +1,255 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+.inspire-tree {
+    input[type="checkbox"] {
+        background: rgba(0, 0, 0, 0);
+        height: $checkbox-button-size;
+        position: absolute;
+        width: $checkbox-button-size;
+        z-index: 2;
+        appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        vertical-align: top;
+        margin-top: calc(($tree-node-height - $arrows-size) / 2);
+
+        &::before {
+            background: $checkbox-background;
+            border: 1px solid $checkbox-border;
+            border-radius: 3px;
+            content: " ";
+            height: $arrows-size;
+            left: 0px;
+            position: absolute;
+            top: 0px;
+            width: $arrows-size;
+        }
+
+        &::after {
+            background: $checkbox-svg-checked;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0);
+            content: " ";
+            height: $arrows-size;
+            left: 0px;
+            opacity: 0;
+            position: absolute;
+            top: 0px;
+            transform: scale(0);
+            transition: all 0.3s ease;
+            width: $arrows-size;
+        }
+
+        &:checked {
+            &::after {
+                background: $checkbox-svg-checked;
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            &:active {
+                &::after {
+                    background: $checkbox-svg-checked;
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                &:focus {
+                    &::before {
+                        background: $checkbox-background-focus;
+                        border-radius: 3px;
+                        border: 1px solid $checkbox-border-focus;
+                        outline: none;
+                    }
+                }
+            }
+
+            &:focus {
+                &::before {
+                    background: $checkbox-background-focus;
+                    border-radius: 3px;
+                    border: 1px solid $checkbox-border-focus;
+                    outline: none;
+                }
+            }
+
+            &[disabled] {
+                &::after {
+                    background: $checkbox-svg-checked-disabled;
+                }
+            }
+        }
+
+        &:indeterminate {
+            &::after {
+                background: $checkbox-svg-indeterminate;
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            &:active {
+                &::after {
+                    background: $checkbox-svg-indeterminate;
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                &:focus {
+                    &::before {
+                        background: $checkbox-background-focus;
+                        border-radius: 3px;
+                        border: 1px solid $checkbox-border-focus;
+                        outline: none;
+                    }
+                }
+            }
+
+            &:focus {
+                &::before {
+                    background: $checkbox-background-focus;
+                    border-radius: 3px;
+                    border: 1px solid $checkbox-border-focus;
+                    outline: none;
+                }
+            }
+
+            &[disabled] {
+                &::after {
+                    background: $checkbox-svg-indeterminate-disabled;
+                }
+            }
+        }
+
+        &:focus {
+            &::before {
+                background: $checkbox-background-focus;
+                border-radius: 3px;
+                border: 1px solid $checkbox-border-focus;
+                outline: none;
+            }
+        }
+
+        &[disabled] {
+            color: silver;
+            cursor: unset;
+
+            &::before {
+                background: lighten($disabled-color, 10%);
+                border-radius: 3px;
+                border: 1px solid $checkbox-border;
+            }
+
+            &::after {
+                background: $checkbox-svg-checked-disabled;
+            }
+        }
+    }
+
+    &.rejected {
+        input[type="checkbox"] {
+            &:indeterminate {
+                &::after {
+                    background: $checkbox-svg-rejected;
+                    opacity: 1;
+                    transform: scale(1);
+                }
+
+                &:active {
+                    &::after {
+                        background: $checkbox-svg-rejected;
+                        opacity: 1;
+                        transform: scale(1);
+                    }
+                }
+
+                &[disabled]::after {
+                    background: $checkbox-svg-rejected-disabled;
+                }
+            }
+        }
+    }
+
+    .title-wrap {
+        input[type="checkbox"] {
+            left: calc($width-cols * 2);
+        }
+    }
+
+    &.readonly {
+        input[type="checkbox"] {
+            z-index: -1;
+        }
+    }
+
+    & > ol {
+        & > li {
+            & > ol {
+                & > li[type="markInactived"] {
+                    & > div {
+                        & > input[type="checkbox"] {
+                            pointer-events: none;
+                            &:checked::after {
+                                background: $checkbox-svg-checked-markinactived;
+                            }
+                            &:indeterminate::after {
+                                background: $checkbox-svg-indeterminate-markinactived;
+                            }
+                        }
+                        &.rejected {
+                            & > input[type="checkbox"] {
+                                pointer-events: none;
+                                &:indeterminate::after {
+                                    background: $checkbox-svg-rejected-markinactived;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        & > li[type="markInactived"] {
+            & > div {
+                & > a {
+                    color: $tree-font-disabled-color !important;
+                    &:hover {
+                        color: $tree-font-disabled-color !important;
+                    }
+                }
+                & > input[type="checkbox"] {
+                    pointer-events: none;
+                    &:checked::after {
+                        background: $checkbox-svg-checked-markinactived;
+                    }
+                    &:indeterminate::after {
+                        background: $checkbox-svg-indeterminate-markinactived;
+                    }
+                }
+                &.rejected {
+                    & > input[type="checkbox"] {
+                        pointer-events: none;
+                        &:indeterminate::after {
+                            background: $checkbox-svg-rejected-markinactived;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+$icon-revert-svg: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#{$toggle-icon-color-svg}' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38'/%3E%3C/svg%3E")
+$icon-revert-svg-selected: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#{$toggle-icon-color-svg-selected}' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38'/%3E%3C/svg%3E")
+$icon-revert-svg-hover: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#{$toggle-icon-color-svg-hover}' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38'/%3E%3C/svg%3E")
+$icon-revert-svg-disabled: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='#{$toggle-icon-color-svg-disabled}' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38'/%3E%3C/svg%3E")
+
+$checkbox-svg-checked: encodeSVG("<svg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/><polygon fill='#{$primary-color}' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/></svg>") no-repeat center center
+$checkbox-svg-checked-disabled: encodeSVG("<svg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/><polygon fill='#{darken($disabled-color, 15%)}' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/></svg>") no-repeat center center
+$checkbox-svg-checked-markinactived: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Cpolygon fill='#{$markinactive-color}' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/%3E%3C/svg%3E") no-repeat center center
+
+$checkbox-svg-indeterminate: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Crect stroke-width='0' stroke='%23FFFFFF' height='12' width='12' y='5' x='5' fill='#{$primary-color}' /%3E%3C/svg%3E") no-repeat center center
+$checkbox-svg-indeterminate-disabled: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Crect stroke-width='0' stroke='%23FFFFFF' height='12' width='12' y='5' x='5' fill='#{darken($disabled-color, 15%)}' /%3E%3C/svg%3E") no-repeat center center
+$checkbox-svg-indeterminate-markinactived: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Crect stroke-width='0' stroke='%23FFFFFF' height='12' width='12' y='5' x='5' fill='#{$markinactive-color}' /%3E%3C/svg%3E") no-repeat center center
+
+$checkbox-svg-rejected: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Cline stroke-width='4' stroke='#{$primary-color}' stroke-linecap='undefined' stroke-linejoin='undefined' y2='10.9375' x2='17' y1='11.0625' x1='5' fill='none' /%3E%3C/svg%3E") no-repeat center center
+$checkbox-svg-rejected-disabled: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Cline stroke-width='4' stroke='#{darken($disabled-color, 15%)}' stroke-linecap='undefined' stroke-linejoin='undefined' y2='10.9375' x2='17' y1='11.0625' x1='5' fill='none' /%3E%3C/svg%3E") no-repeat center center
+$checkbox-svg-rejected-markinactived: encodeSVG("%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='#{$arrows-numeric-size}' height='#{$arrows-numeric-size}' fill-opacity='0'/%3E%3Cline stroke-width='4' stroke='#{$markinactive-color}' stroke-linecap='undefined' stroke-linejoin='undefined' y2='10.9375' x2='17' y1='11.0625' x1='5' fill='none' /%3E%3C/svg%3E") no-repeat center center

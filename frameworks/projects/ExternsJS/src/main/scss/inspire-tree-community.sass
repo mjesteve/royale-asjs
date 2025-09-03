@@ -1,0 +1,208 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+@import "partials-jewel/_functions"
+
+$flat: true
+
+$color1: #29A89F //blue //border color of checkbox when clicked
+$color1-withoutHashForSVG: '29A89F' //for checbox and left arrow "expanded and collapse" in case of all tree types
+$primary-color: rgba(#04a3b3, 1)
+
+$light-color: #d9d9d9
+$default-color: $light-color
+$default-font-color: #808080
+
+$lighten-color: lighten($primary-color, 5%)
+$lighten-font-color: lighten($primary-color, 10%)
+$extralighten-font-color: lighten($primary-color, 50%)
+
+$disabled-color: $light-color
+$disabled-font-color: silver
+
+$primary-color-darkback: darken($primary-color, 5%)
+$primary-font-color-darkback: darken($primary-color, 10%)
+$extraprimary-color-darkback: darken($primary-color, 35%)
+
+$primary-color-two: darken($primary-color, 35%)
+
+$lighten-color-two: lighten($primary-color-two, 5%)
+$lighten-font-color-two: lighten($primary-color-two, 10%)
+$extralighten-font-color-two: lighten($primary-color-two, 50%)
+
+$markinactive-color: $default-font-color // #8e121b
+// Jewel CheckBox
+
+// CheckBox variables
+$checkbox-button-size: 24px
+
+$arrows-numeric-size: 22
+$arrows-size: 22px
+$width-cols: 30px
+$width-icon: 16px
+$height-item: 36px
+
+$checkbox-background-focus: linear-gradient(lighten($primary-color, 30%), lighten($primary-color, 20%))
+$checkbox-border-focus: darken($primary-color, 15%)
+@if $flat
+	$checkbox-background-focus: lighten($primary-color, 25%)
+	$checkbox-border-focus: $primary-color
+
+$checkbox-background: linear-gradient(lighten($default-color, 15%), lighten($default-color, 10%))
+$checkbox-border: darken($default-color, 15%)
+$tree-background: linear-gradient(lighten($default-color, 15%), lighten($default-color, 10%))
+$tree-border-color: darken($default-color, 15%)
+$tree-border: 1px solid $tree-border-color
+$tree-box-shadow: inset 0 1px 0 lighten($default-color, 20%)
+@if $flat
+	$checkbox-background: lighten($default-color, 15%)
+	$checkbox-border: $default-color
+
+	$tree-background: lighten($default-color, 15%)
+	$tree-border-color: $default-color
+	$tree-border: 1px solid $default-color
+	$tree-box-shadow: none
+
+$tree-guide-color: $default-font-color
+
+$tree-row-focused-color: rgb(0, 0, 0) !default
+$tree-font-color: $default-font-color !default
+$tree-row-hover-color: $lighten-color !default
+$tree-font-hover-color: $primary-font-color-darkback !default
+$tree-row-matched-color: $lighten-color !default
+$tree-font-matched-color: $primary-font-color-darkback !default
+$tree-row-selected-color: $primary-color-darkback !default
+$tree-font-selected-color: $lighten-font-color !default
+$tree-row-disabled-color: $disabled-color !default
+$tree-font-disabled-color: $disabled-font-color !default
+$tree-border-disabled-color: darken($disabled-font-color, 5%) !default
+$tree-selected-disabled-color: darken($disabled-color, 5%) !default
+$tree-node-height: $height-item !default
+$tree-link-color: rgb(71, 108, 184) !default
+$tree-button-background-color: rgba(255, 255, 255, .4) !default
+// Icons
+$toggle-icon-color-svg: $primary-color
+$toggle-icon-color-svg-selected: $extraprimary-color-darkback // = $primary-color-two
+$toggle-icon-color-svg-hover: $lighten-font-color
+$toggle-icon-color-svg-disabled: $disabled-color
+
+$icon-check-color: #6a6a6a !default
+$icon-check-hover-color: #0ccc0a !default
+$icon-minus-color: #6a6a6a !default
+$icon-minus-hover-color: #c00 !default
+$icon-more-color: #6a6a6a !default
+$icon-pencil-color: #6a6a6a !default
+$icon-pencil-hover-color: #0ccc0a !default
+$icon-plus-color: #6a6a6a !default
+$icon-plus-hover-color: #0ccc0a !default
+$icon-cross-color: $default-color !default
+$icon-cross-hover-color: $default-font-color !default
+// toggle-icon
+$icon-collapse-background-color: rgba(0, 0, 0, 0) !default
+$icon-collapse-color: $toggle-icon-color-svg !default
+$icon-expand-background-color: rgba(0, 0, 0, 0) !default
+$icon-expand-color: $toggle-icon-color-svg !default
+
+$icon-file-empty-color: $lighten-font-color-two
+$icon-selected-file-empty-color: $toggle-icon-color-svg-selected
+$icon-folder-color: $extraprimary-color-darkback
+$icon-selected-folder-color: $toggle-icon-color-svg-selected
+$icon-folder-open-color: $extraprimary-color-darkback
+$icon-selected-folder-open-color: $toggle-icon-color-svg-selected
+
+@import "partials-jewel/_iconssvg"
+@import 'partials-jewel/_buttons'
+@import 'partials-jewel/_buttons-revert'
+@import 'partials-jewel/_context'
+@import 'partials-jewel/_core-royale'
+@import 'partials-jewel/_checkbox-royale'
+@import 'partials-jewel/_drag'
+@import 'partials-jewel/_editing'
+@import 'partials-jewel/_hierarchy'
+@import 'partials-jewel/_icons'
+@import 'partials-jewel/_wholerow'
+@import 'partials-jewel/_custom-noneicons'
+@import 'partials-jewel/_custom-imagerendering'
+
+/* Custom */
+.inspire-tree[disabled]
+	pointer-events: none
+	box-shadow: none
+	@if $flat
+		background: $tree-row-disabled-color
+		border-color: rgba(0,0,0,0)
+	@else
+		background: $tree-row-disabled-color
+		border: 1px solid $tree-border-disabled-color
+
+	li > .title-wrap > *
+		color: $tree-font-disabled-color
+		font-weight: normal
+		text-shadow: unset
+
+	.selected > .wholerow
+		background-color: $tree-selected-disabled-color
+
+	li.selected > .title-wrap .title
+		color: $tree-font-disabled-color
+
+.inspire-tree[disabled]
+	.title-wrap
+		.icon-collapse::before
+			@include icon-collapse($tree-row-disabled-color)
+		.icon-expand::before
+			@include icon-expand($tree-row-disabled-color)
+		.icon-folder::before
+			@include icon-folder($tree-row-disabled-color)
+		.icon-folder-open::before
+			@include icon-folder-open($tree-row-disabled-color)
+		.icon-file-empty::before
+			@include icon-file-empty($tree-row-disabled-color)
+
+	& > ol > li > div > input[type=checkbox]:checked::after,
+	& > ol > li > ol > li > div > input[type=checkbox]:checked::after
+		background: $checkbox-svg-checked-disabled
+
+	& > ol > li > div > input[type=checkbox]:indeterminate::after,
+	& > ol > li > ol > li > div > input[type=checkbox]:indeterminate::after
+		background: $checkbox-svg-indeterminate-disabled
+
+	& > ol > li > div.rejected > input[type=checkbox]:indeterminate::after,
+	& > ol > li > ol > li > div.rejected > input[type=checkbox]:indeterminate::after
+		background: $checkbox-svg-rejected-disabled
+
+	& > ol > li > div > input[type=checkbox]::before,
+	& > ol > li > ol > li > div > input[type=checkbox]::before
+		@if $flat
+			border-color: rgba(0,0,0,0)
+		@else
+			border-color: 1px solid $tree-border-disabled-color
+
+.editrevert
+	&.inspire-tree[disabled]
+		.icon-folder-open::after,
+		.icon-folder::after
+			background: $icon-revert-svg-disabled no-repeat center center
+
+.smallfont
+	&.inspire-tree li > .title-wrap
+		font-size: 0.8em
+
+.mediumfont
+	&.inspire-tree li > .title-wrap
+		font-size: 0.9em

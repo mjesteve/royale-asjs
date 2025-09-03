@@ -1,0 +1,169 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+@use 'sass:math';
+
+.inspire-tree {
+
+    // $intersection: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAYCAYAAAAh8HdUAAAAN0lEQVQ4T2M8d+HSfyMDPUYGEgBJimHmMo7aBAmK0dCDJgl4ioClDGLo0dBDDz0SMu5o2oMFFgBXbEeI0XwYIwAAAABJRU5ErkJgggAA');
+    // $corner: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAKklEQVQoU2M8d+HSfyMDPUYGEgBJimHmMo7aBAmK0dCDJgl4ioClDGJoAGUZM32Z0U8tAAAAAElFTkSuQmCC');
+    // $full-line: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAYCAYAAAA7zJfaAAAAFUlEQVQIW2M8d+HSf0YGBgYGRrqyABKeKU0SV+t2AAAAAElFTkSuQmCC');
+
+    $half-width-cols: strip-unit(math.div($width-cols, 2));
+    $half-tree-node-height: strip-unit(math.div($tree-node-height, 2));
+
+    $full-line: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 #{strip-unit($width-cols)} #{strip-unit($tree-node-height)}'%3E%3Cline x1='#{$half-width-cols}' x2='#{$half-width-cols}' y1='0' y2='#{strip-unit($tree-node-height)}' stroke='#{$tree-guide-color}' stroke-width='1' stroke-dasharray='2,2'/%3E%3C/svg%3E");
+    $intersection: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 #{strip-unit($width-cols)} #{strip-unit($tree-node-height)}'%3E%3Cline x1='#{$half-width-cols}' x2='#{$half-width-cols}' y1='0' y2='#{strip-unit($tree-node-height)}' stroke='#{$tree-guide-color}' stroke-width='1' stroke-dasharray='2,2'/%3E%3Cline x1='#{$half-width-cols}' x2='#{strip-unit($width-cols)}' y1='#{$half-tree-node-height}' y2='#{$half-tree-node-height}' stroke='#{$tree-guide-color}' stroke-width='1' stroke-dasharray='2,2'/%3E%3C/svg%3E");
+    $corner: encodeSVG("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 #{strip-unit($width-cols)} #{strip-unit($tree-node-height)}'%3E%3Cline x1='#{$half-width-cols}' x2='#{$half-width-cols}' y1='0' y2='#{strip-unit($half-tree-node-height)}' stroke='#{$tree-guide-color}' stroke-width='1' stroke-dasharray='2,2'/%3E%3Cline x1='#{$half-width-cols}' x2='#{strip-unit($width-cols)}' y1='#{$half-tree-node-height}' y2='#{$half-tree-node-height}' stroke='#{$tree-guide-color}' stroke-width='1' stroke-dasharray='2,2'/%3E%3C/svg%3E");
+
+    // Half-line below first-child toggle buttons
+    /* > ol > .folder.first:not(.only),
+    > ol > .folder:first-child:not(:only-child) {
+        background-image: $half-line;
+        background-position: calc( $width-cols / 2) 13px;
+        background-repeat: no-repeat;
+    } */
+
+    // Half-line above last-child toggle buttons
+    /* .folder.last:not(.only), li .folder.last,
+    .folder:last-child:not(:only-child), li .folder:last-child {
+        background-image: $half-line;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: no-repeat;
+    } */
+
+    // When adding rows is allowed
+    /* &.editable-add > ol > .folder.last:not(.only),
+    &.editable-add > ol > .folder:last-child:not(:only-child) {
+        background-image: $full-line;
+        background-repeat: repeat-y;
+    } */
+
+    // Full line inside middle nodes
+    /* > ol .expanded:not(.last):not(.first), li:not(.last),
+    > ol .expanded:not(:last-child):not(:first-child), li:not(:last-child) {
+        background-image: $full-line;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: no-repeat;
+    } */
+
+    // Full line inside expanded nodes
+    /* li.expanded:not(.last) > ol,
+    li.expanded:not(:last-child) > ol {
+        background-image: $full-line;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: repeat-y;
+    } */
+
+    // Half-line below expanded folder
+    /* li.expanded.folder:not(.loading) > .title-wrap {
+        background-image: none; // $half-line;
+        background-position: 31px 13px;
+        background-repeat: no-repeat;
+    } */
+
+    // Leaf intersection lines
+    /* .leaf:not(.last):not(.detached),
+    .leaf:not(:last-child):not(.detached) {
+        background-image: $intersection;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: no-repeat;
+        // background-size: 19px; Lo puso Alina, ahora lo comento
+    } */
+
+    // Last leaf corner lines
+    /* .leaf.last,
+    .leaf:last-child {
+        background-image: $corner;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: no-repeat;
+        // background-size: 19px; Lo puso Alina, ahora lo comento
+    }
+
+    .leaf.detached.last,
+    .leaf.detached:last-child {
+        background-image: $half-line;
+        background-position: calc( $width-cols / 2) 0;
+        background-repeat: no-repeat;
+        // background-size: 19px; Lo puso Alina, ahora lo comento
+    } */
+
+    // When adding rows is allowed
+    /* &.editable-add > ol > .leaf.last,
+    &.editable-add > ol > .leaf:last-child {
+        background-image: $intersection;
+    } */
+    li {
+        &.expanded {
+            &:not(:last-child),
+            &:not(.last) {
+                & > ol::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: $width-cols;
+                    height: 100%;
+                    background-image: $full-line;
+                    background-position: left top;
+                    background-repeat: repeat-y;
+                }
+            }
+        }
+        &.leaf {
+            &:not(:last-child),
+            &:not(.last) {
+                &:not(.detached)::before {
+                    content: "";
+                    position: absolute;
+                    width: $width-cols;
+                    height: $tree-node-height;
+                    background-image: $intersection;
+                    background-repeat: no-repeat;
+                    background-position: left top;
+                    background-size: $width-cols $tree-node-height;
+                }
+            }
+            &:has(.last),
+            &:last-child {
+                &::before {
+                    content: "";
+                    position: absolute;
+                    background-image: $corner;
+                    width: $width-cols;
+                    height: $tree-node-height;
+                    background-repeat: no-repeat;
+                    background-position: left top;
+                    background-size: $width-cols $tree-node-height;
+                }
+            }
+        }
+    }
+
+    // custom
+    & > ol {
+        & > li {
+            &.collapsed {
+                background-image: none !important;
+            }
+            &.expanded {
+                background-image: none !important;
+            }
+        }
+    }
+}
