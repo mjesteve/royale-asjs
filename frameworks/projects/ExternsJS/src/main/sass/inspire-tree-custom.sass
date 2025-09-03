@@ -1,0 +1,743 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+@import "functions"
+
+$flat: true
+$primary-color: rgba(#04a3b3, 1)
+$color1: #29A89F //blue //border color of checkbox when clicked
+$color1-withoutHashForSVG: '29A89F' //for checbox and left arrow "expanded and collapse" in case of all tree types
+// $color-checkboxBackground: linear-gradient(#88e2dc, #5fd8cf) //color of checkbox background when it is clicked
+$default-color: #d9d9d9
+$default-font-color: #808080
+
+$color-checkboxBackground-focus: linear-gradient(lighten($primary-color, 30%), lighten($primary-color, 20%))
+$color-checkboxBorder-focus: darken($primary-color, 15%)
+@if $flat
+    $color-checkboxBackground-focus: lighten($primary-color, 25%)
+    $color-checkboxBorder-focus: $primary-color
+
+$color-checkboxBackground: linear-gradient(lighten($default-color, 15%), lighten($default-color, 10%))
+$color-checkboxBorder: darken($default-color, 15%)
+@if $flat
+    $color-checkboxBackground: lighten($default-color, 15%)
+    $color-checkboxBorder: $default-color
+
+$lighten-color: lighten($primary-color, 5%)
+$lighten-font-color: lighten($primary-color, 10%)
+$extralighten-font-color: lighten($primary-color, 50%)
+
+$disabled-color: lighten($lighten-color, 55%)
+$disabled-font-color: silver //darken($disabled-color, 5%)
+
+$primary-color-darkback: darken($primary-color, 5%)
+$primary-font-color-darkback: darken($primary-color, 10%)
+$extraprimary-color-darkback: darken($primary-color, 35%)
+
+$primary-color-two: darken($primary-color, 35%)
+
+$lighten-color-two: lighten($primary-color-two, 5%)
+$lighten-font-color-two: lighten($primary-color-two, 10%)
+$extralighten-font-color-two: lighten($primary-color-two, 50%)
+
+$markinactive-color: $default-font-color // #8e121b
+// Jewel CheckBox
+
+// CheckBox variables
+$checkbox-button-size: 24px
+
+$arrows-numeric-size: 22
+$arrows-size: 22px
+$width-cols: 30px
+$width-icon: 16px
+$height-item: 36px
+
+$tree-guide-color: $default-font-color
+$tree-row-focused-color: rgb(0, 0, 0)
+$tree-row-hover-color: $lighten-color
+$tree-row-matched-color: $lighten-color
+$tree-row-selected-color: $primary-color-darkback
+$tree-node-height: $height-item
+$tree-link-color: rgb(71, 108, 184)
+$tree-button-background-color: rgba(255, 255, 255, .4)
+// Icons
+$toggle-icon-color-svg: $primary-color
+$toggle-icon-color-svg-selected: $extraprimary-color-darkback // = $primary-color-two
+$toggle-icon-color-svg-hover: $lighten-font-color
+$toggle-icon-color-svg-disabled: $disabled-color
+
+@import "iconssvg"
+
+.inspire-tree, .inspire-tree *
+    box-sizing: border-box
+
+.inspire-tree
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    overflow: auto
+
+    .btn
+        background-color: $tree-button-background-color
+        border: 1px solid rgba(0, 0, 0, 0.2)
+        border-radius: 3px
+        display: inline-block
+        height: 20px
+        transition: all 150ms linear
+        width: 20px
+
+        &:hover
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1)
+
+        & + .btn
+            margin-left: 5px
+
+        &.icon
+            position: relative
+
+            &::before
+                display: block
+                height: 14px
+                left: 50%
+                position: absolute
+                top: 50%
+                -webkit-transform: translate(-50%, -50%)
+                transform: translate(-50%, -50%)
+                width: 14px
+
+    .btn-group
+        display: inline-block
+        height: $tree-node-height
+        line-height: $tree-node-height
+
+    &:focus
+        outline: none
+    ol
+        list-style: none
+        margin: 0
+        padding: 0
+        position: relative
+
+        ol
+            padding-left: $width-cols
+    li
+        & > .title-wrap
+            min-height: $tree-node-height
+            position: relative
+            z-index: 2
+    .toggle
+        height: $tree-node-height
+        left: 0
+        position: absolute
+        top: 0
+        width: $width-cols
+        z-index: 2
+        &::before
+            display: block
+            left: 50%
+            position: absolute
+            top: 50%
+            -webkit-transform: translate(-50%, -50%)
+            transform: translate(-50%, -50%)
+
+    input[type="checkbox"]
+        background: transparent
+        height: $checkbox-button-size
+        position: absolute
+        width: $checkbox-button-size
+        z-index: 2
+        appearance: none
+        -moz-appearance: none
+        -ms-appearance: none
+        -o-appearance: none
+        -webkit-appearance: none
+        cursor: pointer
+        margin-top: calc(($tree-node-height - $arrows-size) / 2)
+
+    .title-wrap
+        input[type="checkbox"]
+            left: calc($width-cols * 2)
+
+    input[type="checkbox"]::before
+        background: $color-checkboxBackground
+        border-radius: 3px
+        border: 1px solid #b3b3b3
+        content: " "
+        height: $arrows-size
+        left: 0px
+        position: absolute
+        top: 0px
+        width: $arrows-size
+    input[type="checkbox"]::after
+        background: $checkbox-svg-checked
+        border-radius: 3px
+        border: 1px solid transparent
+        content: " "
+        height: $arrows-size
+        left: 0px
+        opacity: 0
+        position: absolute
+        top: 0px
+        transform: scale(0)
+        transition: all 0.3s ease
+        width: $arrows-size
+
+    input[type="checkbox"]:checked
+        &::after
+            background: $checkbox-svg-checked
+            opacity: 1
+            transform: scale(1)
+        &:active
+            &::after
+                background: $checkbox-svg-checked
+                opacity: 1
+                transform: scale(1)
+            &:focus
+                &::before
+                    background: $color-checkboxBackground-focus
+                    border-radius: 3px
+                    border: 1px solid $color1
+                    outline: none
+        &:focus
+            &::before
+                background: $color-checkboxBackground-focus
+                border-radius: 3px
+                border: 1px solid $color1
+                outline: none
+        &[disabled]
+            &::after
+                background: $checkbox-svg-checked-disabled
+
+    input[type="checkbox"]:indeterminate
+        &::after
+            background: $checkbox-svg-indeterminate
+            opacity: 1
+            transform: scale(1)
+        &:active
+            &::after
+                background: $checkbox-svg-indeterminate
+                opacity: 1
+                transform: scale(1)
+            &:focus
+                &::before
+                    background: $color-checkboxBackground-focus
+                    border-radius: 3px
+                    border: 1px solid $color1
+                    outline: none
+        &:focus
+            &::before
+                background: $color-checkboxBackground-focus
+                border-radius: 3px
+                border: 1px solid $color1
+                outline: none
+        &[disabled]
+            &::after
+                background: $checkbox-svg-indeterminate-disabled
+
+    input[type="checkbox"]:focus
+        &::before
+            background: $color-checkboxBackground-focus
+            border-radius: 3px
+            border: 1px solid $color1
+            outline: none
+
+    input[type="checkbox"][disabled]
+        color: silver
+        cursor: unset
+
+    input[type="checkbox"][disabled]::before
+        background: #f3f3f3
+        border-radius: 3px
+        border: 1px solid #b3b3b3
+
+    input[type="checkbox"][disabled]::after
+        background: $checkbox-svg-checked-disabled
+
+    &.rejected
+        input[type="checkbox"]:indeterminate
+            &::after
+                background: $checkbox-svg-rejected
+                opacity: 1
+                transform: scale(1)
+            &:active
+                &::after
+                    background: $checkbox-svg-rejected
+                    opacity: 1
+                    transform: scale(1)
+        input[type="checkbox"]:indeterminate[disabled]::after
+            background: $checkbox-svg-rejected-disabled
+    .title
+        cursor: default
+        display: block
+        height: $tree-node-height
+        line-height: $tree-node-height
+        overflow: hidden
+        padding-left: 42px
+        padding-right: 15px
+        position: relative
+        text-overflow: ellipsis
+        vertical-align: middle
+        white-space: nowrap
+        z-index: 1
+        &.load-more
+            color: #476cb8
+            cursor: pointer
+            &:hover
+                text-decoration: underline
+        &::before
+            left: calc($width-cols + (($width-cols - $width-icon) / 2))
+            position: absolute
+            top: 45%
+            -webkit-transform: translateY(-50%)
+            transform: translateY(-50%)
+            vertical-align: top
+        &:focus
+            outline: none
+
+    .title-wrap
+        &:hover > *
+            color: $extralighten-font-color
+
+    &.drag-and-drop
+        li
+            &:not(.drop-target)
+                opacity: .5
+    .editable
+        form
+            display: inline-block
+            height: $tree-node-height
+            line-height: $tree-node-height
+            padding-top: 2px
+            input
+                height: 20px
+        & > .btn-group
+            display: none
+            padding-top: 2px
+            position: absolute
+            right: 10px
+            z-index: 3
+        &:hover
+            & > .btn-group
+                display: block
+    input
+        & + .btn-group
+            margin-left: 10px
+    & > .btn
+        &.icon
+            margin-left: 2px
+.itree-menu
+    background: #ddd
+    border: 1px solid #c4c4c4
+    border-radius: 3px
+    font-family: sans-serif
+    list-style: none
+    margin: 0
+    min-width: 150px
+    padding: 0
+    position: absolute
+    z-index: 10
+    a
+        display: block
+        padding: 3px 8px
+        &:hover
+            background: $tree-row-hover-color
+            color: $tree-row-selected-color
+
+.inspire-tree .collapsed > ol, .inspire-tree .hidden
+    display: none
+.drag-targeting.drag-targeting-insert.inspire-tree,
+.drag-targeting.drag-targeting-insert > .title-wrap > .title
+    border: 1px solid #2dadc5
+.drag-targeting
+    &.drag-targeting-above
+        & > .title-wrap
+            & > .title
+                border-top: 3px solid #2dadc5
+    &.drag-targeting-below
+        & > .title-wrap
+            & > .title
+                border-bottom: 3px solid #2dadc5
+.inspire-tree .editable form input, .inspire-tree .editable form .btn
+    vertical-align: top
+
+.inspire-tree
+    li
+        &.expanded
+            &:not(:last-child),
+            &:not(.last)
+                & > ol::before
+                    content: ''
+                    position: absolute
+                    top: 0
+                    left: 0
+                    width: $width-cols // Ancho suficiente para incluir la guÃ­a
+                    height: 100% // Coincide con la altura fija de <li>
+                    background-image: $full-line
+                    background-position: left top
+                    background-repeat: repeat-y
+        &.leaf
+            &:not(:last-child),
+            &:not(.last)
+                &:not(.detached)::before
+                    content: ''
+                    position: absolute
+                    width: $width-cols // Ancho suficiente para incluir la guÃ­a
+                    height: $tree-node-height // Coincide con la altura fija de <li>
+                    background-image: $intersection
+                    background-repeat: no-repeat
+                    background-position: left top
+                    background-size: $width-cols $tree-node-height // Ajustamos el tamaÃ±o del SVG
+
+            &:has(.last),
+            &:last-child
+                &::before
+                    content: ''
+                    position: absolute
+                    background-image: $corner
+                    width: $width-cols // Ancho suficiente para incluir la guÃ­a
+                    height: $tree-node-height // Coincide con la altura fija de <li>
+                    background-repeat: no-repeat
+                    background-position: left top
+                    background-size: $width-cols $tree-node-height // Ajustamos el tamaÃ±o del SVG
+
+.inspire-tree
+    .icon
+        &::before
+            background-position: 0 0
+            background-repeat: no-repeat
+            content: ''
+            display: inline-block
+    .icon-check
+        &::before
+            background-image: $icon-check
+        &:hover
+            &::before
+                background-image: $icon-check-hover
+    .icon-collapse
+        &::before
+            background: $icon-collapse-svg no-repeat center center
+            content: " "
+            height: $arrows-size
+            left: 50%
+            top: 50%
+            width: 14px
+    .icon-cross
+        &::before
+            background-image: $icon-cross
+        &:hover
+            &::before
+                background-image: $icon-cross-hover
+    .icon-expand
+        &::before
+            background: $icon-expand-svg no-repeat center center
+            content: " "
+            left: 25%
+            top: 25%
+            -webkit-transform: rotate(-90deg)
+            -ms-transform: rotate(-90deg)
+            transform: rotate(-90deg)
+    .icon-file-empty
+        &::before
+            background-image: $icon-file-empty-svg
+    .icon-folder
+        &::before
+            background-image: $icon-folder-svg
+    .icon-folder-open
+        &::before
+            background-image: $icon-folder-open-svg
+    .icon-minus
+        &::before
+            background-image: $icon-minus
+        &:hover
+            &::before
+                background-image: $icon-minus-hover
+    .icon-more
+        &::before
+            background-image: $icon-more
+    .icon-pencil
+        &::before
+            background-image: $icon-pencil
+        &:hover
+            &::before
+                background-image: $icon-pencil-hover
+    .icon-plus
+        &::before
+            background-image: $icon-plus
+        &:hover
+            &::before
+                background-image: $icon-plus-hover
+    .loading
+        & > .title-wrap
+            input
+                display: none
+            .title
+                &::before
+                    background-image: $icon-loading
+                    content: ''
+                    // height: 14px
+                    //width: 14px
+    & > ol
+        position: relative
+    .wholerow
+        height: $tree-node-height // Define la altura de la fila
+        left: 0 // Alinea la fila al borde izquierdo del contenedor
+        margin-top: -$tree-node-height // Coloca la fila en superposición con otros elementos
+        position: absolute // Permite posicionar la fila dentro del contenedor
+        width: 100% // Abarca toda la anchura del contenedor
+        z-index: 1 // Asegura que la fila esté por encima de otros elementos
+    .focused
+        & > .wholerow
+            border: 1px dotted black
+
+/* Custom */
+.inspire-tree
+    overflow: auto
+    border: 1px solid #d3d3d3
+    .title
+        padding-left: calc(($width-cols * 3) + 5px)
+        font-size: inherit
+    .icon
+        &::after,
+        &::before
+            height: $width-icon
+            width: $width-icon
+
+.withoutcheckbox
+    &.inspire-tree
+        .title
+            padding-left: calc(($width-cols * 2) + 5px)
+/* .noneicon
+ .withoutcheckbox
+ &.inspire-tree
+ .title
+ padding-left: $width-cols */
+
+.editrevert.inspire-tree .icon-folder-open::after,
+.editrevert.inspire-tree .icon-folder::after
+    background: $icon-revert-svg
+    background-repeat: no-repeat
+    content: " "
+    cursor: pointer
+    position: absolute
+    right: 5px
+    z-index: 3
+    transform: translateY(-50%)
+    vertical-align: top
+    top: 45%
+
+.editrevert
+    &.inspire-tree
+        .title
+            padding-right: 25px
+        & > ol
+            & > li[type="markInactived"],
+            & > li[norevert]
+                & > div
+                    & > a.title.icon
+                        &::after
+                            display: none
+
+        .title-wrap
+            &:hover
+                .icon-folder-open,
+                .icon-folder
+                    &::after
+                        background: $icon-revert-svg-hover no-repeat center center
+.noneicon
+    &.inspire-tree
+        ol
+            ol
+                padding-left: $width-cols
+        & > ol
+            & > li
+                & > div
+                    & > a
+                        font-weight: inherit
+        li
+            &.expanded
+                &.folder
+                    &:not(.loading)
+                        & > .title-wrap
+                            background-image: url()
+
+        .title
+            padding-left: calc(($width-cols * 2) + 5px)
+
+        .title-wrap
+            input[type="checkbox"]
+                left: $width-cols
+
+        .icon-folder::before,
+        .icon-folder-open::before,
+        .icon-file-empty::before
+            background-image: url()
+
+        .selected > .title-wrap
+            .icon-folder::before,
+            .icon-folder-open::before,
+            .icon-file-empty::before
+                background-image: url()
+
+    &.withoutcheckbox.inspire-tree
+        .title
+            padding-left: calc($width-cols + ($width-cols / 4))
+
+.inspire-tree
+    &.readonly
+        input[type="checkbox"]
+            z-index: -1
+.inspire-tree
+    &.customimagerendering
+        .icon-folder::before,
+        .icon-folder-open::before,
+        .icon-file-empty::before
+            background-image: url()
+
+        .selected
+            & > .title-wrap
+                & a.title.icon
+                    color: inherit
+                .icon-folder::before,
+                .icon-folder-open::before,
+                .icon-file-empty::before
+                    background-image: url()
+
+.inspire-tree .wholerow:hover,
+.inspire-tree .title-wrap:hover + .wholerow
+    background-color: $lighten-color
+    color: $extralighten-font-color
+
+.inspire-tree .wholerow[type="markInactived"]:hover,
+.inspire-tree .title-wrap:hover + .wholerow[type="markInactived"]
+    background-color: inherit
+
+.inspire-tree .matched > .wholerow,
+.inspire-tree .matched > .wholerow:hover,
+.inspire-tree .matched > .title-wrap:hover + .wholerow
+    background-color: $lighten-color
+    color: $extralighten-font-color
+
+.inspire-tree
+    & > ol
+        & > li
+            & > div
+                & > a
+                    color: $default-font-color
+                    font-weight: inherit
+                    /* &:hover
+                     color: white */
+            & > ol
+                & > li
+                    & > div
+                        & > a
+                            color: $default-font-color
+                            /* &:hover
+                             color: white */
+                & > li[type="markInactived"]
+                    & > div
+                        & > a
+                            color: $disabled-font-color !important
+                            &:hover
+                                color: $disabled-font-color !important
+                        & > input[type="checkbox"]
+                            pointer-events: none
+                            &:checked::after
+                                background: $checkbox-svg-checked-markinactived
+                            &:indeterminate::after
+                                background: $checkbox-svg-indeterminate-markinactived
+                        &.rejected
+                            & > input[type="checkbox"]
+                                pointer-events: none
+                                &:indeterminate::after
+                                    background: $checkbox-svg-rejected-markinactived
+
+        & > li[type="markInactived"]
+            & > div
+                & > a
+                    color: $disabled-font-color !important
+                    &:hover
+                        color: $disabled-font-color !important
+                & > input[type="checkbox"]
+                    pointer-events: none
+                    &:checked::after
+                        background: $checkbox-svg-checked-markinactived
+                    &:indeterminate::after
+                        background: $checkbox-svg-indeterminate-markinactived
+                &.rejected
+                    & > input[type="checkbox"]
+                        pointer-events: none
+                        &:indeterminate::after
+                            background: $checkbox-svg-rejected-markinactived
+
+.inspire-tree .selected > .wholerow
+    background-color: $primary-color-darkback
+    color: $extralighten-font-color
+
+.inspire-tree .selected > .wholerow[type="markInactived"]
+    background-color: inherit
+
+.inspire-tree .selected > .wholerow:hover,
+.inspire-tree .selected > .title-wrap:hover + .wholerow
+    background-color: $lighten-color
+    color: $extralighten-font-color
+
+.inspire-tree .selected > .wholerow[type="markInactived"]:hover,
+.inspire-tree .selected > .title-wrap:hover + .wholerow[type="markInactived"]
+    background-color: inherit
+
+.inspire-tree
+    .selected
+        & > .title-wrap
+            & a.title.icon
+                color: white
+            .icon-folder
+                &::before
+                    background-image: $icon-folder-svg-selected
+            .icon-folder-open
+                &::before
+                    background-image: $icon-folder-open-svg-selected
+            .icon-file-empty
+                &::before
+                    background-image: $icon-file-empty-svg-selected
+
+.inspire-tree
+    .title-wrap
+        &:hover
+            .icon-collapse
+                &::before
+                    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg transform='translate(0.000000, -1.000000)' fill='%23FFFFFF' fill-rule='nonzero'%3E%3Cg transform='translate(-2.000000, 0.000000)'%3E%3Cpolygon transform='translate(8.000000, 4.705000) scale(1, -1) translate(-8.000000, -4.705000) ' points='3.41 8.41 8 3.83 12.59 8.41 14 7 8 1 2 7'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat center center
+            .icon-expand
+                &::before
+                    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg transform='translate(0.000000, -1.000000)' fill='%23FFFFFF' fill-rule='nonzero'%3E%3Cg transform='translate(-2.000000, 0.000000)'%3E%3Cpolygon transform='translate(8.000000, 4.705000) scale(1, -1) translate(-8.000000, -4.705000) ' points='3.41 8.41 8 3.83 12.59 8.41 14 7 8 1 2 7'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat center center
+    .title-wrap[type="markInactived"]
+        &:hover
+            .icon-collapse
+                &::before
+                    background: $icon-collapse-svg-selected no-repeat center center
+            .icon-expand
+                &::before
+                    background: $icon-expand-svg-selected no-repeat center center
+
+.smallfont
+    &.inspire-tree li > .title-wrap
+        font-size: 0.8em
+
+.mediumfont
+    &.inspire-tree li > .title-wrap
+        font-size: 0.9em

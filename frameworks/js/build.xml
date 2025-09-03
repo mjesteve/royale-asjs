@@ -108,6 +108,7 @@
         <antcall target="Crux"/>
         <antcall target="Ace"/>
         <antcall target="RoyaleSite"/>
+        <antcall target="ExternsJS"/>
     </target>
 
     <target name="other.locales" description ="Builds resource SWCs for all locales">
@@ -165,6 +166,7 @@
         <ant dir="${basedir}/projects/SparkRoyaleJS" target="clean"/>
         <ant dir="${basedir}/projects/AceJS" target="clean"/>
         <ant dir="${basedir}/projects/RoyaleSiteJS" target="clean"/>
+        <ant dir="${basedir}/projects/ExternsJSJS" target="clean"/>
 
         <delete dir="${basedir}/libs"/>
         <delete dir="${basedir}/generated-sources"/>
@@ -300,6 +302,10 @@
 
     <target name="RoyaleSite" description="Clean build of RoyaleSiteJS.swc">
         <ant dir="${basedir}/projects/RoyaleSiteJS"/>
+    </target>
+
+    <target name="ExternsJS" description="Clean build of ExternsJSJS.swc">
+        <ant dir="${basedir}/projects/ExternsJSJS"/>
     </target>
 
 </project>

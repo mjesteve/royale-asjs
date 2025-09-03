@@ -1,0 +1,170 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Licensed to the Apache Software Foundation (ASF) under one or more
+//  contributor license agreements.  See the NOTICE file distributed with
+//  this work for additional information regarding copyright ownership.
+//  The ASF licenses this file to You under the Apache License, Version 2.0
+//  (the "License"); you may not use this file except in compliance with
+//  the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+////////////////////////////////////////////////////////////////////////////////
+.inspire-tree {
+  // Clearing selection after click events typically flashes
+  // because the selection must complete first.
+  // Disabling selection here so that it's easy to override...
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  overflow: auto;
+  border-color: $tree-border-color;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: $tree-box-shadow;
+  color: $tree-font-color;
+
+  &:focus {
+    outline: none;
+  }
+
+  &,
+  * {
+    box-sizing: border-box;
+  }
+
+  /* ~~@@@~~~~~ Lists ~~~~~@@@~~ */
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    ol {
+      padding-left: $width-cols;
+    }
+  }
+
+  .collapsed > ol,
+  .hidden {
+    display: none;
+  }
+
+  li > .title-wrap {
+    min-height: $tree-node-height;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ~~@@@~~~~~ Node Content ~~~~~@@@~~ */
+  .toggle {
+    height: $tree-node-height;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: $width-cols; // $tree-node-height;
+    z-index: 2;
+
+    &::before {
+      display: block;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .title {
+    cursor: default;
+    display: block;
+    font-size: inherit;
+    height: $tree-node-height;
+    line-height: $tree-node-height;
+    overflow: hidden;
+    padding-left: calc(($width-cols * 3) + 5px);
+    padding-right: 15px;
+    position: relative;
+    text-overflow: ellipsis;
+    // vertical-align: middle;
+    white-space: nowrap;
+    z-index: 1;
+
+    &.load-more {
+      color: $tree-link-color;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &::before {
+      left: calc($width-cols + (($width-cols - $width-icon) / 2));
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      vertical-align: top;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .selected > .title-wrap a.title.icon {
+    color: $tree-font-selected-color;
+  }
+
+  & > ol {
+    & > li {
+      & > div > a {
+        color: $tree-font-color;
+        font-weight: inherit;
+      }
+      & > ol > li > div > a {
+        color: $tree-font-color;
+      }
+      & > ol {
+        & > li > div > a {
+          color: $tree-font-color;
+        }
+        & > li[type="markInactived"] {
+          & > div > a {
+            color: $tree-font-disabled-color;
+            &:hover {
+              color: $tree-font-disabled-color;
+            }
+          }
+        }
+      }
+    }
+    & > li[type="markInactived"] {
+      & > div > a {
+        color: $tree-font-disabled-color;
+        &:hover {
+          color: $tree-font-disabled-color;
+        }
+      }
+    }
+  }
+
+}
+
+.withoutcheckbox {
+  &.inspire-tree {
+    .title {
+      padding-left: calc(($width-cols * 2) + 5px);
+    }
+  }
+}
